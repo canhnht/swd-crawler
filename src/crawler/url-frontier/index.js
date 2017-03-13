@@ -1,5 +1,4 @@
 import MainDBService from '../../common/MainDBService';
-import ApartmentDBService from '../../common/ApartmentDBService';
 import {DomainName, DomainFolder} from '../../common/models/Domain';
 import URL from '../../common/models/URL';
 
@@ -13,7 +12,6 @@ class URLFrontier {
     domains.forEach((domain) => {
       this._currentUrlId[domain] = null;
     });
-    console.log('currentUrlId', this._currentUrlId);
 
     return this.initSeedUrls(domains).then(() => {
       return MainDBService.getUrls(DomainName[domains[0]]);

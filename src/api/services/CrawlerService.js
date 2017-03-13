@@ -66,8 +66,8 @@ function stopCrawler() {
     kill(crawlerPID);
   } else {
     exec('taskkill /PID ' + crawlerPID + ' /T /F', (error, stdout, stderr) => {
-      console.log('stdout: ' + stdout);
-      console.log('stderr: ' + stderr);
+      console.log('Crawler Output: ' + stdout);
+      console.log('Crawler Error: ' + stderr);
       if (error !== null) {
         console.log('exec error: ' + error);
       }

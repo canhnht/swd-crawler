@@ -16,7 +16,8 @@ const ApartmentInfo = {
   Price: 13,
   Images: 14,
   City: 15,
-  District: 16
+  District: 16,
+  Title: 17
 };
 
 const ApartmentProperty = {
@@ -35,7 +36,8 @@ const ApartmentProperty = {
   [ApartmentInfo.Price]: 'Price',
   [ApartmentInfo.Images]: 'Images',
   [ApartmentInfo.City]: 'City',
-  [ApartmentInfo.District]: 'District'
+  [ApartmentInfo.District]: 'District',
+  [ApartmentInfo.Title]: 'Title'
 };
 
 export {ApartmentInfo, ApartmentProperty};

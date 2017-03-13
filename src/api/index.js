@@ -56,7 +56,7 @@ class Api {
   }
 
   initDB() {
-    return MainDBService.connect().then(() => {
+    return MainDBService.connect(config.get('CLEAR_DB')).then(() => {
       console.log('Connect to MongoDB');
       return MainDBService.initConfigs();
     }).then(() => {

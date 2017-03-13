@@ -17,6 +17,15 @@ class MongoDB {
     });
   }
 
+  clearDatabase() {
+    return this._db.collections().then((collections) => {
+      let dropCollectionsPromise = collections.map((c) => {
+        return this._db.dropCollection(c.collectionName);
+      });
+      return Promise.all(dropCollectionsPromise);
+    });
+  }
+
   get db() {
     return this._db;
   }

@@ -2,6 +2,7 @@ import URLFrontier from './url-frontier';
 import HTTPFetcher from './http-fetcher';
 import Extracter from './extracter';
 import MainDBService from '../common/MainDBService';
+import ApartmentDBService from '../common/ApartmentDBService';
 
 class Crawler {
   constructor() {
@@ -11,16 +12,20 @@ class Crawler {
   }
 
   run() {
-    MainDBService.connect().then(() => {
-      return MainDBService.getCrawlerConfig();
-    }).then((doc) => {
-      let domains = Object.keys(doc.domains)
-        .filter((domain) => doc.domains[domain]);
-      return this._urlFrontier.init(domains).then(() => {
-        this._httpFetcher.run(domains, doc.secondsBetweenRequest);
-        this._extracter.run();
+    MainDBService.connect()
+      .then(() => ApartmentDBService.connect())
+      .then(() => MainDBService.getCrawlerConfig())
+      .then((doc) => {
+        let domains = Object.keys(doc.domains)
+          .filter((domain) => doc.domains[domain]);
+        let apartmentProperties = Object.keys(doc.apartmentInfo)
+          .filter((key) => doc.apartmentInfo[key]);
+
+        return this._urlFrontier.init(domains).then(() => {
+          this._httpFetcher.run(domains, doc.secondsBetweenRequest);
+          this._extracter.run(apartmentProperties);
+        });
       });
-    });
   }
 }
 

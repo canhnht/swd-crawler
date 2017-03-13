@@ -48,10 +48,14 @@ function filterNewUrls(urls, listUrl) {
 // Public
 // ------------------------------------
 
-function connect() {
-  console.log(`Before connect ${mainDB}`);
+function connect(clearDB = false) {
+  console.log(`Before connect MainDB ${mainDB}`);
   mainDB = new MongoDB();
-  return mainDB.connect();
+  return mainDB.connect().then(() => {
+    if (clearDB) {
+      return mainDB.clearDatabase();
+    }
+  })
 }
 
 function initConfigs() {
@@ -70,22 +74,23 @@ function initConfigs() {
           [Domain.ALoNhaDat]: false
         },
         apartmentInfo: {
-          [ApartmentInfo.RoomNumber]: true,
-          [ApartmentInfo.Area]: true,
-          [ApartmentInfo.Address]: true,
-          [ApartmentInfo.Direction]: true,
-          [ApartmentInfo.NumberOfBedrooms]: true,
-          [ApartmentInfo.NumberOfBathrooms]: true,
-          [ApartmentInfo.Project]: true,
-          [ApartmentInfo.Floor]: true,
-          [ApartmentInfo.Utilities]: true,
-          [ApartmentInfo.Environment]: true,
-          [ApartmentInfo.Description]: true,
-          [ApartmentInfo.PricePerMetreSquare]: true,
-          [ApartmentInfo.Price]: true,
-          [ApartmentInfo.Images]: true,
-          [ApartmentInfo.City]: true,
-          [ApartmentInfo.District]: true
+          [ApartmentInfo.RoomNumber]: false,
+          [ApartmentInfo.Area]: false,
+          [ApartmentInfo.Address]: false,
+          [ApartmentInfo.Direction]: false,
+          [ApartmentInfo.NumberOfBedrooms]: false,
+          [ApartmentInfo.NumberOfBathrooms]: false,
+          [ApartmentInfo.Project]: false,
+          [ApartmentInfo.Floor]: false,
+          [ApartmentInfo.Utilities]: false,
+          [ApartmentInfo.Environment]: false,
+          [ApartmentInfo.Description]: false,
+          [ApartmentInfo.PricePerMetreSquare]: false,
+          [ApartmentInfo.Price]: false,
+          [ApartmentInfo.Images]: false,
+          [ApartmentInfo.City]: false,
+          [ApartmentInfo.District]: false,
+          [ApartmentInfo.Title]: true
         },
         secondsBetweenRequest: 1
       });

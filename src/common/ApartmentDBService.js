@@ -8,7 +8,8 @@ import MainDBService from './MainDBService';
 // ------------------------------------
 
 export default {
-  connect
+  connect,
+  addApartment
 };
 
 
@@ -24,9 +25,20 @@ let apartmentDB = null;
 // ------------------------------------
 
 function connect() {
-  console.log(`Before connect ${apartmentDB}`);
-  return MainDBService.getCrawlerConfig((data) => {
-    apartmentDB = new MongoDB(data.dbHost, data.dbPort, data.dbName);
+  console.log(`Before connect ApartmentDB ${apartmentDB}`);
+  return MainDBService.getCrawlerConfig().then((doc) => {
+    apartmentDB = new MongoDB(doc.dbHost, doc.dbPort, doc.dbName);
     return apartmentDB.connect();
+  });
+}
+
+function addApartment(apartment) {
+  let apartments = apartmentDB.db.collection('apartments');
+  return apartments.updateOne({
+    Title: apartment.Title
+  }, {
+    '$set': apartment
+  }, {
+    upsert: true
   });
 }

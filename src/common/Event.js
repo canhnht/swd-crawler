@@ -1,15 +1,20 @@
 
 
 
-const HttpFetcher = {
-  ApartmentPage: 'HttpFetcher:ApartmentPage'
+const HTTPFetcher = {
+  ApartmentPage: 'HTTPFetcher:ApartmentPage'
 };
 
 const ListApartmentPage = {
   ApartmentURL: 'ListApartmentPage:ApartmentURL'
-}
+};
+
+const ApartmentPage = {
+  Apartment: 'ApartmentPage:Apartment'
+};
 
 export default {
-  HttpFetcher,
-  ListApartmentPage
+  HTTPFetcher,
+  ListApartmentPage,
+  ApartmentPage
 };

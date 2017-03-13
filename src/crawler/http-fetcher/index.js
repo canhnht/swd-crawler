@@ -40,22 +40,25 @@ class HTTPFetcher extends EventEmitter {
   }
 
   _processPage(url, htmlCode) {
+    const domainFolder = DomainFolder[url.domain];
     switch (url.type) {
-      case URLType.PAGINATED_LIST_APARTMENT:
-        const domainFolder = DomainFolder[url.domain];
+      case URLType.PAGINATED_LIST_APARTMENT: {
         const ListApartmentPage = require(`../domains/${domainFolder}/ListApartmentPage`).default;
         const page = new ListApartmentPage(url, htmlCode);
         page.on(Event.ListApartmentPage.ApartmentURL, this._handleApartmentUrl);
         page.process();
         break;
-      case URLType.ITEM_APARTMENT:
-
+      }
+      case URLType.ITEM_APARTMENT: {
+        const ApartmentPage = require(`../domains/${domainFolder}/ApartmentPage`).default;
+        const page = new ApartmentPage(url, htmlCode);
+        this.emit(Event.HTTPFetcher.ApartmentPage, page);
         break;
+      }
     }
   }
 
   _handleApartmentUrl(apartmentUrl) {
-    console.log(apartmentUrl.link);
     this._urlFrontier.addUrl(apartmentUrl);
   }
 
