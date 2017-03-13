@@ -8,10 +8,10 @@ import bodyParser from 'body-parser';
 import domainMiddleware from 'express-domain-middleware';
 import {errorHandler, notFoundHandler} from 'express-api-error-handler';
 import config from 'config';
-import './bootstrap';
 import routes from './routes';
 import loadRoutes from '../common/loadRoutes';
 import logger from '../common/logger';
+import MainDBService from './services/MainDBService';
 
 class Api {
   constructor() {
@@ -43,10 +43,29 @@ class Api {
     this.app = app;
   }
 
-  run() {
-    this.app.listen(this.app.get('port'), () => {
-      logger.info(`Express server listening on port ${this.app.get('port')} in ${process.env.NODE_ENV} mode`);
+  start() {
+    return new Promise((resolve, reject) => {
+      this.app.listen(this.app.get('port'), (err) => {
+        if (err) reject(err);
+        else {
+          logger.info(`Express server listening on port ${this.app.get('port')} in ${process.env.NODE_ENV} mode`);
+          resolve();
+        }
+      });
+    })
+  }
+
+  initDB() {
+    return MainDBService.connect().then(() => {
+      console.log('Connect to MongoDB');
+      return MainDBService.initConfigs();
+    }).then(() => {
+      console.log('Init crawler config');
     });
+  }
+
+  run() {
+    this.initDB().then(() => this.start());
   }
 }
 

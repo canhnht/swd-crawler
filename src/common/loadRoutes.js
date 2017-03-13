@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import HTTPError from 'http-errors';
-import wrapAsync from 'express-wrap-async';
 
 /**
  * Load routes and apply authentication middleware
@@ -28,7 +27,7 @@ export default function loadRoutes(router, routes) {
         throw new Error(`method is undefined in ${verb.toUpperCase()} ${url}`);
       }
       actions.push(method);
-      router[verb](url, wrapAsync(actions));
+      router[verb](url, actions);
     });
   });
 }

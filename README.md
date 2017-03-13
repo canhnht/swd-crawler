@@ -22,3 +22,8 @@ Crawler assignment for SWD391
 |`start`|Serves the app in prod mode. It will override config with `config/production.js`|
 |`dev`|Same as `npm start`, but enables nodemon for the server as well.|
 
+## Setup crawler
+
+
+## TODO
+- Add `index.js` in folder `api/services` to export all services in one place.

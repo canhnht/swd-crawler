@@ -3,9 +3,8 @@
  */
 import TestService from '../services/TestService';
 
-
 export default {
-  testMethod,
+  testMethod
 };
 
 /**
@@ -13,7 +12,9 @@ export default {
  * @param {Object} req
  * @param {Object} res
  */
-async function testMethod(req, res) {
-  const result = await TestService.testMethod();
-  res.json(result);
+function testMethod(req, res) {
+  TestService.testMethod()
+    .then((result) => {
+      res.json(result);
+    });
 }
