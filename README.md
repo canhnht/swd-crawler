@@ -27,3 +27,4 @@ Crawler assignment for SWD391
 
 ## TODO
 - Add `index.js` in folder `api/services` to export all services in one place.
+- Improve `getFullLink`

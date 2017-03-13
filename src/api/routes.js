@@ -28,6 +28,10 @@ export default {
     post: {
       method: CrawlerController.saveConfig,
       public: true
+    },
+    get: {
+      method: CrawlerController.getConfig,
+      public: true
     }
   }
 };

@@ -1,8 +1,12 @@
 
-class Extractor {
+class Extracter {
   constructor() {
+
+  }
+
+  run() {
 
   }
 }
 
-export default Extractor;
+export default Extracter;

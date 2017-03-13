@@ -11,7 +11,7 @@ import config from 'config';
 import routes from './routes';
 import loadRoutes from '../common/loadRoutes';
 import logger from '../common/logger';
-import MainDBService from './services/MainDBService';
+import MainDBService from '../common/MainDBService';
 
 class Api {
   constructor() {

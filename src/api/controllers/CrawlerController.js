@@ -1,5 +1,5 @@
 import CrawlerService from '../services/CrawlerService';
-import MainDBService from '../services/MainDBService';
+import MainDBService from '../../common/MainDBService';
 import HTTPError from 'http-errors';
 
 
@@ -10,7 +10,8 @@ import HTTPError from 'http-errors';
 export default {
   startCrawler,
   stopCrawler,
-  saveConfig
+  saveConfig,
+  getConfig
 };
 
 
@@ -31,8 +32,14 @@ function stopCrawler(req, res, next) {
 
 function saveConfig(req, res, next) {
   MainDBService.updateCrawlerConfig(req.body).then(() => {
-    MainDBService.getCrawlerConfig().then((data) => {
-      res.json(data);
+    MainDBService.getCrawlerConfig().then((doc) => {
+      res.json(doc);
     });
+  }).catch((err) => next(err));
+}
+
+function getConfig(req, res, next) {
+  MainDBService.getCrawlerConfig().then((doc) => {
+    res.json(doc);
   }).catch((err) => next(err));
 }

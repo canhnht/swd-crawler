@@ -1,20 +1,26 @@
 import URLFrontier from './url-frontier';
 import HTTPFetcher from './http-fetcher';
-import Extractor from './extractor';
+import Extracter from './extracter';
+import MainDBService from '../common/MainDBService';
 
 class Crawler {
   constructor() {
-    this.urlFrontier = new URLFrontier();
-    this.httpFetcher = new HTTPFetcher(this.urlFrontier);
-    this.extractor = new Extractor(this.httpFetcher);
+    this._urlFrontier = new URLFrontier();
+    this._httpFetcher = new HTTPFetcher(this._urlFrontier);
+    this._extracter = new Extracter(this._httpFetcher);
   }
 
   run() {
-    let count = 0;
-    let interval = setInterval(() => {
-      console.log(`Crawler is running... ${++count}`);
-      if (count == 10) clearInterval(interval);
-    }, 1000);
+    MainDBService.connect().then(() => {
+      return MainDBService.getCrawlerConfig();
+    }).then((doc) => {
+      let domains = Object.keys(doc.domains)
+        .filter((domain) => doc.domains[domain]);
+      return this._urlFrontier.init(domains).then(() => {
+        this._httpFetcher.run(domains, doc.secondsBetweenRequest);
+        this._extracter.run();
+      });
+    });
   }
 }
 

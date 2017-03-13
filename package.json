@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "dev": "better-npm-run dev",
-    "start": "better-npm-run start"
+    "start": "better-npm-run start",
+    "crawl": "better-npm-run crawl"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +25,12 @@
       "env": {
         "NODE_ENV": "production"
       }
+    },
+    "crawl": {
+      "command": "nodemon --exec babel-node src/crawler",
+      "env": {
+        "NODE_ENV": "development"
+      }
     }
   },
   "dependencies": {
@@ -32,9 +39,9 @@
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-stage-0": "^6.5.0",
     "better-npm-run": "0.0.13",
-    "bluebird": "^3.5.0",
     "body-parser": "^1.15.2",
     "bunyan": "^1.8.1",
+    "cheerio": "^0.22.0",
     "config": "^1.24.0",
     "cors": "^2.8.1",
     "express": "^4.14.0",
@@ -43,7 +50,8 @@
     "http-errors": "^1.5.0",
     "lodash": "^4.17.2",
     "mongodb": "^2.2.24",
-    "ps-tree": "^1.1.0"
+    "ps-tree": "^1.1.0",
+    "request": "^2.81.0"
   },
   "devDependencies": {
     "nodemon": "^1.10.2"

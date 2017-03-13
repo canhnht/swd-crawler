@@ -1,18 +1,23 @@
 
 
 class URL {
-	constructor(link, type) {
+	constructor(domain, link, type) {
+    this._domain = domain;
 		this._link = link;
 		this._type = type;
 	}
 
-	get link() {
-		return this._link;
-	}
+  get domain() {
+    return this._domain;
+  }
 
-	set link(value) {
-		this._link = value;
-	}
+  get link() {
+    return this._link;
+  }
+
+  get type() {
+    return this._type;
+  }
 }
 
 export default URL;

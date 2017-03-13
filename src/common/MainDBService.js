@@ -1,7 +1,8 @@
-import MongoDB from '../../common/MongoDB';
-import {Domain} from '../../common/models/Domain';
-import {ApartmentInfo} from '../../common/models/ApartmentInfo';
 import config from 'config';
+import {ObjectID} from 'mongodb';
+import MongoDB from './MongoDB';
+import {Domain} from './models/Domain';
+import {ApartmentInfo} from './models/ApartmentInfo';
 
 
 // ------------------------------------
@@ -12,7 +13,10 @@ export default {
   connect,
   initConfigs,
   updateCrawlerConfig,
-  getCrawlerConfig
+  getCrawlerConfig,
+  getUrls,
+  getNextUrl,
+  addUrls
 };
 
 
@@ -22,12 +26,30 @@ export default {
 
 let mainDB = null;
 
+function getUrlsCollection(domainName) {
+  let urls = mainDB.db.collection(`${domainName}:urls`);
+  return urls;
+}
+
+function filterNewUrls(urls, listUrl) {
+  let links = listUrl.map((url) => url.link);
+  return urls.find({
+    link: {
+      $in: links
+    }
+  }).toArray().then((docs) => {
+    return listUrl.filter(
+      (url) => !docs.find((item) => item.link === url.link)
+    );
+  });
+}
 
 // ------------------------------------
 // Public
 // ------------------------------------
 
 function connect() {
+  console.log(`Before connect ${mainDB}`);
   mainDB = new MongoDB();
   return mainDB.connect();
 }
@@ -42,10 +64,10 @@ function initConfigs() {
         dbPort: config.get('DB_PORT'),
         dbName: config.get('DB_NAME'),
         domains: {
-          [Domain.BatDongSan]: true,
+          [Domain.BatDongSan]: false,
           [Domain.MuaBanNhaDat]: true,
-          [Domain.NhaDat24h]: true,
-          [Domain.ALoNhaDat]: true
+          [Domain.NhaDat24h]: false,
+          [Domain.ALoNhaDat]: false
         },
         apartmentInfo: {
           [ApartmentInfo.RoomNumber]: true,
@@ -86,5 +108,41 @@ function getCrawlerConfig() {
   let configs = mainDB.db.collection('configs');
   return configs.findOne({
     name: 'crawlerConfig'
+  });
+}
+
+function getNextUrl(domainName, urlId) {
+  let urls = getUrlsCollection(domainName);
+  if (urlId) {
+    return urls.find({
+      _id: {
+        $gt: ObjectID(urlId)
+      }
+    }).limit(1).toArray().then((docs) => {
+      if (docs.length == 0) return null;
+      return docs[0];
+    });
+  } else {
+    return urls.find().limit(1).toArray().then((docs) => {
+      if (docs.length == 0) return null;
+      return docs[0];
+    });
+  }
+}
+
+function getUrls(domainName) {
+  let urls = getUrlsCollection(domainName);
+  return urls.find().toArray();
+}
+
+function addUrls(domainName, listUrl) {
+  let urls = getUrlsCollection(domainName);
+  return filterNewUrls(urls, listUrl).then((newUrls) => {
+    if (newUrls.length == 0) return Promise.resolve();
+    return urls.insertMany(newUrls.map((url) => ({
+      link: url.link,
+      domain: url.domain,
+      type: url.type
+    })));
   });
 }

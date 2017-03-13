@@ -8,10 +8,17 @@ const Domain = {
 };
 
 const DomainName = {
-  [Domain.BatDongSan]: 'www.batdongsan.com.vn',
-  [Domain.MuaBanNhaDat]: 'www.muabannhadat.vn',
-  [Domain.NhaDat24h]: 'www.nhadat24h.net',
-  [Domain.ALoNhaDat]: 'www.alonhatdat.com.vn'
+  [Domain.BatDongSan]: 'http://batdongsan.com.vn',
+  [Domain.MuaBanNhaDat]: 'http://www.muabannhadat.vn',
+  [Domain.NhaDat24h]: 'http://nhadat24h.net',
+  [Domain.ALoNhaDat]: 'http://alonhadat.com.vn'
 };
 
-export {Domain, DomainName};
+const DomainFolder = {
+  [Domain.BatDongSan]: 'batdongsan',
+  [Domain.MuaBanNhaDat]: 'muabannhadat',
+  [Domain.NhaDat24h]: 'nhadat24h',
+  [Domain.ALoNhaDat]: 'alonhadat'
+};
+
+export {Domain, DomainName, DomainFolder};
