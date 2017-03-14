@@ -1,7 +1,7 @@
 import config from 'config';
 import {ObjectID} from 'mongodb';
 import MongoDB from './MongoDB';
-import {Domain} from './models/Domain';
+import {Domain, DomainName} from './models/Domain';
 import {ApartmentInfo} from './models/ApartmentInfo';
 
 
@@ -16,7 +16,8 @@ export default {
   getCrawlerConfig,
   getUrls,
   getNextUrl,
-  addUrls
+  addUrls,
+  clearURLsDatabase
 };
 
 
@@ -56,6 +57,13 @@ function connect(clearDB = false) {
       return mainDB.clearDatabase();
     }
   })
+}
+
+function clearURLsDatabase() {
+  return mainDB.db.collections().then((collections) => {
+    let urlsCollections = collections.filter((c) => c.collectionName.endsWith(':urls'));
+    return mainDB.dropCollections(urlsCollections);
+  });
 }
 
 function initConfigs() {

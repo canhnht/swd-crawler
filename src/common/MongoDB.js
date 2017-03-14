@@ -17,12 +17,21 @@ class MongoDB {
     });
   }
 
+  dropCollection(name) {
+    return this._db.dropCollection(name).catch(() => {});
+  }
+
+  dropCollections(collections) {
+    if (collections.length == 0) return Promise.resolve();
+    let dropCollectionsPromise = collections.map((c) => {
+      return this._db.dropCollection(c.collectionName);
+    });
+    return Promise.all(dropCollectionsPromise);
+  }
+
   clearDatabase() {
     return this._db.collections().then((collections) => {
-      let dropCollectionsPromise = collections.map((c) => {
-        return this._db.dropCollection(c.collectionName);
-      });
-      return Promise.all(dropCollectionsPromise);
+      return this.dropCollections(collections);
     });
   }
 

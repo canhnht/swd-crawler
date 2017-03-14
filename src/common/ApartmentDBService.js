@@ -10,7 +10,8 @@ import MainDBService from './MainDBService';
 export default {
   connect,
   addApartment,
-  getApartments
+  getApartments,
+  clearApartments
 };
 
 
@@ -31,6 +32,10 @@ function connect() {
     apartmentDB = new MongoDB(doc.dbHost, doc.dbPort, doc.dbName);
     return apartmentDB.connect();
   });
+}
+
+function clearApartments() {
+  return apartmentDB.dropCollection('apartments');
 }
 
 function addApartment(apartment) {
