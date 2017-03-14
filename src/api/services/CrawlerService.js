@@ -43,7 +43,6 @@ function startCrawler() {
   if (crawlerPID !== null) {
     console.log('Already running');
     return crawlerPID;
-    return;
   }
   let child = exec('babel-node ./src/crawler');
   child.stdout.on('data', function(data) {

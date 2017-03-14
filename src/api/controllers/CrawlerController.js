@@ -21,13 +21,19 @@ export default {
 
 function startCrawler(req, res) {
   let crawlerPID = CrawlerService.startCrawler();
-  res.json(crawlerPID);
+  res.json({
+    success: true,
+    crawlerPID
+  });
 }
 
 function stopCrawler(req, res, next) {
   let crawlerPID = CrawlerService.stopCrawler();
   if (crawlerPID === null) next(HTTPError(400, 'No crawler is running'));
-  else res.json(`Stop ${crawlerPID}`);
+  else res.json({
+    success: true,
+    crawlerPID
+  });
 }
 
 function saveConfig(req, res, next) {
