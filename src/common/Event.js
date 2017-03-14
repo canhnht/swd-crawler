@@ -2,11 +2,16 @@
 
 
 const HTTPFetcher = {
-  ApartmentPage: 'HTTPFetcher:ApartmentPage'
+  ApartmentPage: 'HTTPFetcher:ApartmentPage',
+  FetchedPage: 'HTTPFetcher:FetchedPage'
 };
 
 const ListApartmentPage = {
   ApartmentURL: 'ListApartmentPage:ApartmentURL'
+};
+
+const BaseListApartmentPage = {
+  ListApartmentURL: 'BaseListApartmentPage:ListApartmentURL'
 };
 
 const ApartmentPage = {
@@ -16,5 +21,6 @@ const ApartmentPage = {
 export default {
   HTTPFetcher,
   ListApartmentPage,
-  ApartmentPage
+  ApartmentPage,
+  BaseListApartmentPage
 };

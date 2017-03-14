@@ -4,6 +4,7 @@
 
 import TestController from './controllers/TestController';
 import CrawlerController from './controllers/CrawlerController';
+import ApartmentController from './controllers/ApartmentController';
 
 export default {
   '/test': {
@@ -31,6 +32,12 @@ export default {
     },
     get: {
       method: CrawlerController.getConfig,
+      public: true
+    }
+  },
+  '/apartments': {
+    get: {
+      method: ApartmentController.getApartments,
       public: true
     }
   }

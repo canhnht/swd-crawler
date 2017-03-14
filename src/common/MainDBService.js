@@ -69,8 +69,8 @@ function initConfigs() {
         dbName: config.get('DB_NAME'),
         domains: {
           [Domain.BatDongSan]: false,
-          [Domain.MuaBanNhaDat]: true,
-          [Domain.NhaDat24h]: false,
+          [Domain.MuaBanNhaDat]: false,
+          [Domain.NhaDat24h]: true,
           [Domain.ALoNhaDat]: false
         },
         apartmentInfo: {

@@ -1,15 +1,11 @@
 import {EventEmitter} from 'events';
-import request from 'request';
+import axios from 'axios';
 import Event from '../../common/Event';
-import {DomainFolder} from '../../common/models/Domain';
-import URLType from '../../common/models/URLType';
-import URL from '../../common/models/URL';
 
 class HTTPFetcher extends EventEmitter {
   constructor(urlFrontier) {
     super();
     this._urlFrontier = urlFrontier;
-    this._handleApartmentUrl = this._handleApartmentUrl.bind(this);
   }
 
   run(domains, delayInSeconds) {
@@ -32,48 +28,24 @@ class HTTPFetcher extends EventEmitter {
     });
     Promise.all(nextUrlsPromise).then((nextUrls) => {
       nextUrls.filter((url) => !!url).forEach((url) => {
+        console.log('nextURL', url);
         this._fetchUrl(url).then((htmlCode) => {
-          this._processPage(url, htmlCode);
+          this.emit(Event.HTTPFetcher.FetchedPage, url, htmlCode);
         });
       });
     });
   }
 
-  _processPage(url, htmlCode) {
-    const domainFolder = DomainFolder[url.domain];
-    switch (url.type) {
-      case URLType.PAGINATED_LIST_APARTMENT: {
-        const ListApartmentPage = require(`../domains/${domainFolder}/ListApartmentPage`).default;
-        const page = new ListApartmentPage(url, htmlCode);
-        page.on(Event.ListApartmentPage.ApartmentURL, this._handleApartmentUrl);
-        page.process();
-        break;
-      }
-      case URLType.ITEM_APARTMENT: {
-        const ApartmentPage = require(`../domains/${domainFolder}/ApartmentPage`).default;
-        const page = new ApartmentPage(url, htmlCode);
-        this.emit(Event.HTTPFetcher.ApartmentPage, page);
-        break;
-      }
-    }
-  }
-
-  _handleApartmentUrl(apartmentUrl) {
-    this._urlFrontier.addUrl(apartmentUrl);
-  }
-
   _fetchUrl(url) {
-    const requestOptions = {
-      method: 'GET',
-      encoding: 'utf8',
-      url: url.link
+    let requestOptions = {
+      url: url.link,
+      method: 'get',
+      responseType: 'text'
     };
-    return new Promise((resolve, reject) => {
-      request(requestOptions, (err, res, body) => {
-        if (!err && res.statusCode === 200) {
-          resolve(body);
-        } else reject(err);
-      })
+    return axios(requestOptions).then((res) => {
+      if (res.status === 200)
+        return res.data;
+      else throw new Error(`${res.status} - ${res.statusText}`);
     });
   }
 }

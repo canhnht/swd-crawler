@@ -9,7 +9,8 @@ import MainDBService from './MainDBService';
 
 export default {
   connect,
-  addApartment
+  addApartment,
+  getApartments
 };
 
 
@@ -41,4 +42,14 @@ function addApartment(apartment) {
   }, {
     upsert: true
   });
+}
+
+function getApartments(query, offset, limit) {
+  let apartments = apartmentDB.db.collection('apartments');
+  return apartments.find(query).skip(offset).limit(limit).toArray();
+}
+
+function getNumberApartments() {
+  let apartments = apartmentDB.db.collection('apartments');
+  return apartments.count();
 }

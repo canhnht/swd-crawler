@@ -41,67 +41,68 @@ class ApartmentPage extends EventEmitter {
   }
 
   _extractTitle($) {
-    return $('.navi-title').text().trim();
+    return $('.dv-ct-detail h1').text().trim();
   }
 
   _extractDescription($) {
-    return $('#Description').html().trim();
+    return $('#ContentPlaceHolder2_divContent').html().trim();
   }
 
   _extractPrice($) {
-    return $('#MainContent_ctlDetailBox_lblPrice.price').text().trim();
+    return $('#ContentPlaceHolder2_lbGiaTien').text().trim();
   }
 
   _extractCity($) {
-    return $('#MainContent_ctlDetailBox_lblCity').text().trim();
+    return $('#ContentPlaceHolder2_lbTinhThanh').text().trim();
   }
 
   _extractDistrict($) {
-    return $('#MainContent_ctlDetailBox_lblDistrict').text().trim();
+    return $('#ContentPlaceHolder2_lbDiaChi a').text().trim();
   }
 
   _extractAddress($) {
-    let street = $('#MainContent_ctlDetailBox_lblStreet').text().trim();
-    let ward = $('#MainContent_ctlDetailBox_lblWard').text().trim();
-    return `${street}, ${ward}`;
+    return $('#ContentPlaceHolder2_lbVitri h2 a').text().trim();
   }
 
   _extractArea($) {
-    return $('#MainContent_ctlDetailBox_lblSurface').text().trim();
+    return $('#ContentPlaceHolder2_lbDienTich').text().trim();
   }
 
   _extractDirection($) {
-    return $('#MainContent_ctlDetailBox_lblFengShuiDirection').text().trim();
+    return $('#ContentPlaceHolder2_lbHuong').text().trim();
   }
 
   _extractNumberOfBedrooms($) {
-    return $('#MainContent_ctlDetailBox_lblBedRoom').text().trim();
+    return 0;
   }
 
   _extractNumberOfBathrooms($) {
-    return $('#MainContent_ctlDetailBox_lblBathRoom').text().trim();
+    return 0;
   }
 
   _extractProject($) {
-    return $('#MainContent_ctlDetailBox_lblProject').text().trim();
+    return $('#ContentPlaceHolder2_lbLoaiBDS a').text().trim();
   }
 
   _extractFloor($) {
-    return $('#MainContent_ctlDetailBox_lblFloor').text().trim();
+    return 0;
   }
 
   _extractUtilities($) {
-    return $('#MainContent_ctlDetailBox_lblUtility').html().trim();
+    return '';
   }
 
   _extractEnvironment($) {
-    return $('#MainContent_ctlDetailBox_lblEnvironment').html().trim();
+    let node = $('#near-by-place-detail');
+    if (node && node.html()) {
+      return node.trim();
+    } else return '';
   }
 
   _extractImages($) {
     let images = [];
-    $('.swipebox img').each((idx, elem) => {
-      let imageLink = this._getFullLink($(elem).attr('src'));
+    $('.swipebox').each((idx, elem) => {
+      let imageLink = this._getFullLink($(elem).attr('href'));
       images.push(imageLink);
     });
     return images;

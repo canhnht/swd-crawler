@@ -4,11 +4,11 @@ import {Domain} from '../../../common/models/Domain';
 
 
 const SeedURLs = [
-  // new URL(Domain.MuaBanNhaDat,
-  //   'http://www.muabannhadat.vn/can-ho-cho-thue-3519',
+  // new URL(Domain.NhaDat24h,
+  //   'http://nhadat24h.net/ban-chung-cu-ha-noi-s295459/',
   //   URLType.BASE_LIST_APARTMENT),
-  new URL(Domain.MuaBanNhaDat,
-    'http://www.muabannhadat.vn/can-ho-ban-3514',
+  new URL(Domain.NhaDat24h,
+    'http://nhadat24h.net/cho-thue-chung-cu-ha-noi-s299405/',
     URLType.BASE_LIST_APARTMENT)
 ];
 

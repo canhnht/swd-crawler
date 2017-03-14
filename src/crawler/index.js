@@ -8,7 +8,7 @@ class Crawler {
   constructor() {
     this._urlFrontier = new URLFrontier();
     this._httpFetcher = new HTTPFetcher(this._urlFrontier);
-    this._extracter = new Extracter(this._httpFetcher);
+    this._extracter = new Extracter(this._httpFetcher, this._urlFrontier);
   }
 
   run() {

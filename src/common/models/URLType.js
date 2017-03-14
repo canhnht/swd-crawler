@@ -2,7 +2,8 @@
 
 const URLType = {
 	PAGINATED_LIST_APARTMENT: 1,
-	ITEM_APARTMENT: 2
+	ITEM_APARTMENT: 2,
+  BASE_LIST_APARTMENT: 3
 };
 
 export default URLType;

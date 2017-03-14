@@ -12,6 +12,7 @@ import routes from './routes';
 import loadRoutes from '../common/loadRoutes';
 import logger from '../common/logger';
 import MainDBService from '../common/MainDBService';
+import ApartmentDBService from '../common/ApartmentDBService';
 
 class Api {
   constructor() {
@@ -56,12 +57,14 @@ class Api {
   }
 
   initDB() {
-    return MainDBService.connect(config.get('CLEAR_DB')).then(() => {
-      console.log('Connect to MongoDB');
-      return MainDBService.initConfigs();
-    }).then(() => {
-      console.log('Init crawler config');
-    });
+    return MainDBService.connect(config.get('CLEAR_DB'))
+      .then(() => ApartmentDBService.connect())
+      .then(() => {
+        console.log('Connect to MongoDB');
+        return MainDBService.initConfigs();
+      }).then(() => {
+        console.log('Init crawler config');
+      });
   }
 
   run() {
