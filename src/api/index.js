@@ -58,13 +58,13 @@ class Api {
 
   initDB() {
     return MainDBService.connect(config.get('CLEAR_DB'))
-      .then(() => ApartmentDBService.connect())
       .then(() => {
         console.log('Connect to MongoDB');
         return MainDBService.initConfigs();
-      }).then(() => {
-        console.log('Init crawler config');
-      });
+      }).then(() => ApartmentDBService.connect())
+        .then(() => {
+          console.log('Init crawler config');
+        });
   }
 
   run() {
