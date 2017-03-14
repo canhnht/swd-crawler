@@ -1,0 +1,111 @@
+{
+	"variables": [],
+	"info": {
+		"name": "SWD Crawler",
+		"_postman_id": "489f7003-9563-6e81-2abb-88b532c95c8d",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/test",
+			"request": {
+				"url": "{{URL}}/test",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/crawler/start",
+			"request": {
+				"url": "{{URL}}/crawler/start",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/crawler/stop",
+			"request": {
+				"url": "{{URL}}/crawler/stop",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/crawler/config",
+			"request": {
+				"url": "{{URL}}/crawler/config",
+				"method": "POST",
+				"header": [
+					{
+						"key": "//Content",
+						"value": "application/json",
+						"description": "",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "dbHost",
+							"value": "localhost",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "dbPort",
+							"value": "3333",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "dbName",
+							"value": "swd-apartments",
+							"type": "text",
+							"enabled": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/crawler/config",
+			"request": {
+				"url": "{{URL}}/crawler/config",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/apartments",
+			"request": {
+				"url": "{{URL}}/apartments?page=1",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
