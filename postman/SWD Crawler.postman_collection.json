@@ -32,7 +32,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"clearData\": true,\n\t\"crawlerConfig\": {\n\t  \"dbHost\": \"127.0.0.1\",\n\t  \"dbPort\": 27017,\n\t  \"dbName\": \"swd-crawler\",\n\t  \"domains\": {\n\t    \"1\": false,\n\t    \"2\": false,\n\t    \"3\": true,\n\t    \"4\": false\n\t  },\n\t  \"apartmentInfo\": {\n\t    \"1\": false,\n\t    \"2\": false,\n\t    \"3\": false,\n\t    \"4\": false,\n\t    \"5\": false,\n\t    \"6\": false,\n\t    \"7\": false,\n\t    \"8\": false,\n\t    \"9\": false,\n\t    \"10\": false,\n\t    \"11\": false,\n\t    \"12\": false,\n\t    \"13\": false,\n\t    \"14\": false,\n\t    \"15\": false,\n\t    \"16\": false,\n\t    \"17\": true\n\t  },\n\t  \"secondsBetweenRequest\": 1\n\t}\n}\n"
+					"raw": "{\n\t\"clearData\": true,\n\t\"dbHost\": \"127.0.0.1\",\n\t\"dbPort\": 27017,\n\t\"dbName\": \"swd-crawler\",\n\t\"domains\": {\n    \t\"1\": false,\n    \t\"2\": true,\n    \t\"3\": false,\n    \t\"4\": false\n\t},\n\t\"apartmentInfo\": {\n    \t\"1\": false,\n    \t\"2\": false,\n    \t\"3\": false,\n\t    \"4\": false,\n\t    \"5\": false,\n\t    \"6\": false,\n\t    \"7\": false,\n\t    \"8\": false,\n\t    \"9\": false,\n\t    \"10\": false,\n\t    \"11\": false,\n\t    \"12\": false,\n\t    \"13\": false,\n\t    \"14\": false,\n\t    \"15\": false,\n\t    \"16\": false,\n\t    \"17\": true\n\t},\n\t\"secondsBetweenRequest\": 1\n}\n"
 				},
 				"description": ""
 			},
