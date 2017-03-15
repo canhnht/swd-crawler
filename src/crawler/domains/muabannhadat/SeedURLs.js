@@ -4,9 +4,9 @@ import {Domain} from '../../../common/models/Domain';
 
 
 const SeedURLs = [
-  // new URL(Domain.MuaBanNhaDat,
-  //   'http://www.muabannhadat.vn/can-ho-cho-thue-3519',
-  //   URLType.BASE_LIST_APARTMENT),
+  new URL(Domain.MuaBanNhaDat,
+    'http://www.muabannhadat.vn/can-ho-cho-thue-3519',
+    URLType.BASE_LIST_APARTMENT),
   new URL(Domain.MuaBanNhaDat,
     'http://www.muabannhadat.vn/can-ho-ban-3514',
     URLType.BASE_LIST_APARTMENT)

@@ -10,8 +10,8 @@ class BaseListApartmentPage extends EventEmitter {
     super();
     this._baseUrl = baseUrl;
     this._htmlCode = htmlCode;
-    this._currentPageNumber = 0;
-    this._numberOfPages = 1;
+    this._currentPageNumber = 1;
+    this._numberOfPages = 10;
   }
 
   process() {
@@ -26,7 +26,9 @@ class BaseListApartmentPage extends EventEmitter {
   }
 
   _generatePageLink(pageNumber) {
-    return `${this._baseUrl.link}?p=${pageNumber}`;
+    if (pageNumber === 1) return this._baseUrl.link;
+    let baseLink = this._baseUrl.link.substring(0, this._baseUrl.link.length - 5);
+    return `${baseLink}/trang--${pageNumber}.html`;
   }
 }
 

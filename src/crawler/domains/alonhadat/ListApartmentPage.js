@@ -15,12 +15,14 @@ class ListApartmentPage extends EventEmitter {
 
   process() {
     let $ = cheerio.load(this._htmlCode);
-    $('.title-filter-link').each((idx, aNode) => {
+    $('.ct_title a').each((idx, aNode) => {
       process.nextTick(() => {
         let apartmentLink = $(aNode).attr('href');
-        apartmentLink = this._getFullLink(apartmentLink);
-        let apartmentURL = new URL(this._baseUrl.domain, apartmentLink, URLType.ITEM_APARTMENT);
-        this.emit(Event.ListApartmentPage.ApartmentURL, apartmentURL);
+        if (apartmentLink.startsWith('/')) {
+          apartmentLink = this._getFullLink(apartmentLink);
+          let apartmentURL = new URL(this._baseUrl.domain, apartmentLink, URLType.ITEM_APARTMENT);
+          this.emit(Event.ListApartmentPage.ApartmentURL, apartmentURL);
+        }
       });
     });
   }

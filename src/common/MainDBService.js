@@ -33,12 +33,16 @@ function getUrlsCollection(domainName) {
 }
 
 function filterNewUrls(urls, listUrl) {
-  let links = listUrl.map((url) => url.link);
-  return urls.find({
-    link: {
-      $in: links
-    }
-  }).toArray().then((docs) => {
+  let query = {
+    $or: []
+  };
+  listUrl.forEach((url) => {
+    query.$or.push({
+      link: url.link,
+      type: url.type
+    })
+  });
+  return urls.find(query).toArray().then((docs) => {
     return listUrl.filter(
       (url) => !docs.find((item) => item.link === url.link)
     );
@@ -78,8 +82,8 @@ function initConfigs() {
         domains: {
           [Domain.BatDongSan]: false,
           [Domain.MuaBanNhaDat]: false,
-          [Domain.NhaDat24h]: true,
-          [Domain.ALoNhaDat]: false
+          [Domain.NhaDat24h]: false,
+          [Domain.ALoNhaDat]: true
         },
         apartmentInfo: {
           [ApartmentInfo.RoomNumber]: false,

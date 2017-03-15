@@ -20,7 +20,7 @@ class ListApartmentPage extends EventEmitter {
         let apartmentLink = $(aNode).attr('href');
         if (apartmentLink.startsWith('/')) {
           apartmentLink = this._getFullLink(apartmentLink);
-          let apartmentURL = new URL(Domain.NhaDat24h, apartmentLink, URLType.ITEM_APARTMENT);
+          let apartmentURL = new URL(this._baseUrl.domain, apartmentLink, URLType.ITEM_APARTMENT);
           this.emit(Event.ListApartmentPage.ApartmentURL, apartmentURL);
         }
       });

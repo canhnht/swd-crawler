@@ -17,12 +17,16 @@ class BaseListApartmentPage extends EventEmitter {
   process() {
     _.times(this._numberOfPages, () => {
       process.nextTick(() => {
-        let link = `${this._baseUrl.link}${this._currentPageNumber}`;
+        let link = this._generatePageLink(this._currentPageNumber);
         this._currentPageNumber += 1;
         let listApartmentURL = new URL(this._baseUrl.domain, link, URLType.PAGINATED_LIST_APARTMENT);
         this.emit(Event.BaseListApartmentPage.ListApartmentURL, listApartmentURL);
       });
     });
+  }
+
+  _generatePageLink(pageNumber) {
+    return `${this._baseUrl.link}${pageNumber}`;
   }
 }
 
