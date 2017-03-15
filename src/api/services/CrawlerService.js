@@ -1,6 +1,7 @@
 import {exec} from 'child_process';
 import psTree from 'ps-tree';
 import HTTPError from 'http-errors';
+import CrawlerStatus from '../../common/models/CrawlerStatus';
 
 
 // ------------------------------------
@@ -9,7 +10,8 @@ import HTTPError from 'http-errors';
 
 export default {
   startCrawler,
-  stopCrawler
+  stopCrawler,
+  getCrawlerStatus
 };
 
 
@@ -46,13 +48,14 @@ function startCrawler() {
   }
   let child = exec('babel-node ./src/crawler');
   child.stdout.on('data', function(data) {
-      console.log('stdout: ' + data);
+    console.log('stdout: ' + data);
   });
   child.stderr.on('data', function(data) {
-      console.log('stdout: ' + data);
+    console.log('stderr: ' + data);
   });
   child.on('close', function(code) {
-      console.log('closing code: ' + code);
+    console.log('closing code: ' + code);
+    crawlerPID = null;
   });
   crawlerPID = child.pid;
   return crawlerPID;
@@ -75,4 +78,9 @@ function stopCrawler() {
   let pid = crawlerPID;
   crawlerPID = null;
   return pid;
+}
+
+function getCrawlerStatus() {
+  if (crawlerPID !== null) return CrawlerStatus.Running;
+  else return CrawlerStatus.Stopped;
 }

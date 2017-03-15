@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "better-npm-run dev",
     "start": "better-npm-run start",
-    "crawl": "better-npm-run crawl"
+    "crawl": "better-npm-run crawl",
+    "fpt": "better-npm-run fpt"
   },
   "keywords": [],
   "author": "",
@@ -30,6 +31,12 @@
       "command": "nodemon --exec babel-node src/crawler",
       "env": {
         "NODE_ENV": "development"
+      }
+    },
+    "fpt": {
+      "command": "nodemon --exec babel-node src | bunyan -o short -l trace",
+      "env": {
+        "NODE_ENV": "fpt"
       }
     }
   },

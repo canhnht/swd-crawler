@@ -55,6 +55,7 @@ function filterNewUrls(urls, listUrl) {
 
 function connect(clearDB = false) {
   console.log(`Before connect MainDB ${mainDB}`);
+  if (mainDB) return Promise.resolve();
   mainDB = new MongoDB();
   return mainDB.connect().then(() => {
     if (clearDB) {
@@ -81,27 +82,27 @@ function initConfigs() {
         dbName: config.get('DB_NAME'),
         domains: {
           [Domain.BatDongSan]: false,
-          [Domain.MuaBanNhaDat]: false,
+          [Domain.MuaBanNhaDat]: true,
           [Domain.NhaDat24h]: false,
-          [Domain.ALoNhaDat]: true
+          [Domain.ALoNhaDat]: false
         },
         apartmentInfo: {
-          [ApartmentInfo.RoomNumber]: false,
-          [ApartmentInfo.Area]: false,
-          [ApartmentInfo.Address]: false,
-          [ApartmentInfo.Direction]: false,
-          [ApartmentInfo.NumberOfBedrooms]: false,
-          [ApartmentInfo.NumberOfBathrooms]: false,
-          [ApartmentInfo.Project]: false,
-          [ApartmentInfo.Floor]: false,
-          [ApartmentInfo.Utilities]: false,
-          [ApartmentInfo.Environment]: false,
-          [ApartmentInfo.Description]: false,
-          [ApartmentInfo.PricePerMetreSquare]: false,
-          [ApartmentInfo.Price]: false,
-          [ApartmentInfo.Images]: false,
-          [ApartmentInfo.City]: false,
-          [ApartmentInfo.District]: false,
+          [ApartmentInfo.RoomNumber]: true,
+          [ApartmentInfo.Area]: true,
+          [ApartmentInfo.Address]: true,
+          [ApartmentInfo.Direction]: true,
+          [ApartmentInfo.NumberOfBedrooms]: true,
+          [ApartmentInfo.NumberOfBathrooms]: true,
+          [ApartmentInfo.Project]: true,
+          [ApartmentInfo.Floor]: true,
+          [ApartmentInfo.Utilities]: true,
+          [ApartmentInfo.Environment]: true,
+          [ApartmentInfo.Description]: true,
+          [ApartmentInfo.PricePerMetreSquare]: true,
+          [ApartmentInfo.Price]: true,
+          [ApartmentInfo.Images]: true,
+          [ApartmentInfo.City]: true,
+          [ApartmentInfo.District]: true,
           [ApartmentInfo.Title]: true
         },
         secondsBetweenRequest: 1

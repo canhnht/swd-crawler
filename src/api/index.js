@@ -61,10 +61,9 @@ class Api {
       .then(() => {
         console.log('Connect to MongoDB');
         return MainDBService.initConfigs();
-      }).then(() => ApartmentDBService.connect())
-        .then(() => {
-          console.log('Init crawler config');
-        });
+      }).then(() => {
+        console.log('Init crawler config');
+      });
   }
 
   run() {

@@ -11,7 +11,8 @@ export default {
   connect,
   addApartment,
   getApartments,
-  clearApartments
+  clearApartments,
+  checkConnection
 };
 
 
@@ -21,6 +22,11 @@ export default {
 
 let apartmentDB = null;
 
+function connectDatabase(host, port, dbName) {
+  apartmentDB = new MongoDB(host, port, dbName);
+  return apartmentDB.connect();
+}
+
 
 // ------------------------------------
 // Public
@@ -28,9 +34,22 @@ let apartmentDB = null;
 
 function connect() {
   console.log(`Before connect ApartmentDB ${apartmentDB}`);
+  if (apartmentDB) return Promise.resolve();
   return MainDBService.getCrawlerConfig().then((doc) => {
-    apartmentDB = new MongoDB(doc.dbHost, doc.dbPort, doc.dbName);
-    return apartmentDB.connect();
+    return connectDatabase(doc.dbHost, doc.dbPort, doc.dbName);
+  });
+}
+
+function checkConnection(host, port, dbName) {
+  if (!host || !port || !dbName) return Promise.resolve({
+    success: false,
+    message: 'Invalid database connection'
+  });
+  return MongoDB.isValidConnection(host, port, dbName).then((result) => {
+    if (result.success) {
+      return connectDatabase(host, port, dbName)
+        .then(() => result);
+    } else return result;
   });
 }
 

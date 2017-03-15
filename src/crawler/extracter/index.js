@@ -50,7 +50,6 @@ class Extracter {
   }
 
   _handleApartment(apartment) {
-    console.log(apartment);
     let newApartment = {};
     this._apartmentProperties.forEach((key) => {
       let property = ApartmentProperty[key];

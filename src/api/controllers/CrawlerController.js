@@ -38,42 +38,65 @@ function startCrawlerWithConfig(crawlerConfig) {
 // Public
 // ------------------------------------
 
-function startCrawler(req, res) {
-  let clearData = req.body.clearData;
-  let crawlerConfig = req.body.crawlerConfig;
-  if (clearData) {
-    let clearURLsPromise = MainDBService.clearURLsDatabase();
-    let clearApartments = ApartmentDBService.clearApartments();
-    Promise.all([clearURLsPromise, clearApartments]).then(() => {
-      return startCrawlerWithConfig(crawlerConfig);
-    }).then((doc) => {
-      res.json(doc);
-    });
-  } else {
-    startCrawlerWithConfig(crawlerConfig).then((doc) => {
-      res.json(doc);
-    });
-  }
+function startCrawler(req, res, next) {
+  let {dbHost, dbPort, dbName} = req.body;
+  ApartmentDBService.checkConnection(dbHost, dbPort, dbName)
+    .then((result) => {
+      if (result.success) {
+        let clearData = req.body.clearData;
+        let crawlerConfig = req.body;
+        delete crawlerConfig.clearData;
+        console.log('crawlerConfig', crawlerConfig);
+        if (clearData) {
+          let clearURLsPromise = MainDBService.clearURLsDatabase();
+          let clearApartments = ApartmentDBService.clearApartments();
+          Promise.all([clearURLsPromise, clearApartments]).then(() => {
+            return startCrawlerWithConfig(crawlerConfig);
+          }).then((doc) => {
+            res.json({
+              crawlerConfig: doc,
+              crawlerStatus: CrawlerService.getCrawlerStatus()
+            });
+          });
+        } else {
+          startCrawlerWithConfig(crawlerConfig).then((doc) => {
+            res.json({
+              crawlerConfig: doc,
+              crawlerStatus: CrawlerService.getCrawlerStatus()
+            });
+          });
+        }
+      } else next(HTTPError(400, result.message));
+    })
 }
 
 function stopCrawler(req, res, next) {
   let crawlerPID = CrawlerService.stopCrawler();
   if (crawlerPID === null) next(HTTPError(400, 'No crawler is running'));
   else MainDBService.getCrawlerConfig().then((doc) => {
-    res.json(doc);
+    res.json({
+      crawlerConfig: doc,
+      crawlerStatus: CrawlerService.getCrawlerStatus()
+    });
   });
 }
 
 function saveConfig(req, res, next) {
   MainDBService.updateCrawlerConfig(req.body).then(() => {
     MainDBService.getCrawlerConfig().then((doc) => {
-      res.json(doc);
+      res.json({
+        crawlerConfig: doc,
+        crawlerStatus: CrawlerService.getCrawlerStatus()
+      });
     });
   }).catch((err) => next(err));
 }
 
 function getConfig(req, res, next) {
   MainDBService.getCrawlerConfig().then((doc) => {
-    res.json(doc);
+    res.json({
+      crawlerConfig: doc,
+      crawlerStatus: CrawlerService.getCrawlerStatus()
+    });
   }).catch((err) => next(err));
 }

@@ -2,8 +2,8 @@
 
 
 const HTTPFetcher = {
-  ApartmentPage: 'HTTPFetcher:ApartmentPage',
-  FetchedPage: 'HTTPFetcher:FetchedPage'
+  FetchedPage: 'HTTPFetcher:FetchedPage',
+  Done: 'HTTPFetcher:Done'
 };
 
 const ListApartmentPage = {

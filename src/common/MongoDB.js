@@ -17,6 +17,24 @@ class MongoDB {
     });
   }
 
+  disconnect() {
+    if (!this._db) return Promise.resolve();
+    return this._db.close();
+  }
+
+  static isValidConnection(host, port, dbName) {
+    let dbURL = `mongodb://${host}:${port}/${dbName}`;
+    return MongoClient.connect(dbURL).then((db) => {
+      db.close();
+      return { success: true };
+    }).catch((err) => {
+      return {
+        success: false,
+        message: err.message
+      };
+    });
+  }
+
   dropCollection(name) {
     return this._db.dropCollection(name).catch(() => {});
   }

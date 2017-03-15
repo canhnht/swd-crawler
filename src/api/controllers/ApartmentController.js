@@ -24,6 +24,17 @@ const PAGE_SIZE = 10;
 // Public
 // ------------------------------------
 
+/*
+Query params:
+{
+  page: 1,
+  search: {
+    Title: 'abc'
+    Description: 'abc'
+    ....
+  }
+}
+*/
 function getApartments(req, res, next) {
   let page = req.query.page || 1;
   let search = req.query.search || {};

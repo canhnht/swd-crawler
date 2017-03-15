@@ -1,25 +1,40 @@
 import {EventEmitter} from 'events';
 import axios from 'axios';
+import config from 'config';
 import Event from '../../common/Event';
+
+const THRESHOLD_EMPTY_URL = 10;
 
 class HTTPFetcher extends EventEmitter {
   constructor(urlFrontier) {
     super();
     this._urlFrontier = urlFrontier;
+    this._fetchInterval = null;
+    this._timesEmptyURLs = 0;
   }
 
   run(domains, delayInSeconds) {
     this._domains = domains;
     this._delayInSeconds = delayInSeconds;
+    this._startFetchInterval(1000);
+  }
 
+  _startFetchInterval(intervalStep) {
     let countSeconds = 0;
     this._fetchInterval = setInterval(() => {
       ++countSeconds;
-      if (countSeconds >= delayInSeconds) {
+      console.log('fetchInterval', countSeconds);
+      if (countSeconds >= this._delayInSeconds) {
         countSeconds = 0;
         this._processNextUrls();
       }
-    }, 1000);
+    }, intervalStep);
+  }
+
+  _stopFetchInterval() {
+    if (!this._fetchInterval) return;
+    clearInterval(this._fetchInterval);
+    this._fetchInterval = null;
   }
 
   _processNextUrls() {
@@ -27,12 +42,22 @@ class HTTPFetcher extends EventEmitter {
       return this._urlFrontier.getNextUrl(domain);
     });
     Promise.all(nextUrlsPromise).then((nextUrls) => {
-      nextUrls.filter((url) => !!url).forEach((url) => {
-        console.log('nextURL', url);
-        this._fetchUrl(url).then((htmlCode) => {
-          this.emit(Event.HTTPFetcher.FetchedPage, url, htmlCode);
+      nextUrls = nextUrls.filter((url) => !!url);
+      if (nextUrls.length == 0) {
+        this._timesEmptyURLs += 1;
+        if (this._timesEmptyURLs >= THRESHOLD_EMPTY_URL) {
+          this._timesEmptyURLs = 0;
+          this._stopFetchInterval();
+          this.emit(Event.HTTPFetcher.Done);
+        }
+      } else {
+        nextUrls.forEach((url) => {
+          console.log('nextURL', url);
+          this._fetchUrl(url).then((htmlCode) => {
+            this.emit(Event.HTTPFetcher.FetchedPage, url, htmlCode);
+          });
         });
-      });
+      }
     });
   }
 
@@ -40,7 +65,8 @@ class HTTPFetcher extends EventEmitter {
     let requestOptions = {
       url: url.link,
       method: 'get',
-      responseType: 'text'
+      responseType: 'text',
+      proxy: config.get('AXIOS_PROXY')
     };
     return axios(requestOptions).then((res) => {
       if (res.status === 200)

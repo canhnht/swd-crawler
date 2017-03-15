@@ -3,6 +3,7 @@ import HTTPFetcher from './http-fetcher';
 import Extracter from './extracter';
 import MainDBService from '../common/MainDBService';
 import ApartmentDBService from '../common/ApartmentDBService';
+import Event from '../common/Event';
 
 class Crawler {
   constructor() {
@@ -22,6 +23,10 @@ class Crawler {
           .filter((key) => doc.apartmentInfo[key]);
 
         return this._urlFrontier.init(domains).then(() => {
+          this._httpFetcher.on(Event.HTTPFetcher.Done, () => {
+            console.log('Finish crawling');
+            process.exit();
+          });
           this._httpFetcher.run(domains, doc.secondsBetweenRequest);
           this._extracter.run(apartmentProperties);
         });
