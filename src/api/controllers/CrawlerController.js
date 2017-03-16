@@ -4,6 +4,7 @@ import MainDBService from '../../common/MainDBService';
 import ApartmentDBService from '../../common/ApartmentDBService';
 import {DomainName} from '../../common/models/Domain';
 import {ApartmentProperty} from '../../common/models/ApartmentInfo';
+import CrawlerStatus from '../../common/models/CrawlerStatus';
 
 
 // ------------------------------------
@@ -37,6 +38,8 @@ function startCrawlerWithConfig(crawlerConfig) {
 
 function normalizeRequestBody(reqBody) {
   reqBody.domains = reqBody.domains || [];
+  if (typeof reqBody.domains == 'string')
+    reqBody.domains = [ reqBody.domains ];
   let normalizedDomains = {};
   Object.keys(DomainName).forEach((key) => {
     normalizedDomains[key] = !!reqBody.domains.find((e) => e == key);
@@ -44,6 +47,8 @@ function normalizeRequestBody(reqBody) {
   reqBody.domains = normalizedDomains;
 
   reqBody.apartmentInfo = reqBody.apartmentInfo || [];
+  if (typeof reqBody.apartmentInfo == 'string')
+    reqBody.apartmentInfo = [ reqBody.apartmentInfo ];
   let normalizedApartmentInfo = {};
   Object.keys(ApartmentProperty).forEach((key) => {
     normalizedApartmentInfo[key] = !!reqBody.apartmentInfo.find((e) => e == key);
@@ -57,6 +62,10 @@ function normalizeRequestBody(reqBody) {
 // ------------------------------------
 
 function startCrawler(req, res, next) {
+  if (CrawlerService.getCrawlerStatus() === CrawlerStatus.Running) {
+    next(HTTPError(400, 'Crawler is running'));
+    return;
+  }
   normalizeRequestBody(req.body);
   let {dbHost, dbPort, dbName} = req.body;
   ApartmentDBService.checkConnection(dbHost, dbPort, dbName)
