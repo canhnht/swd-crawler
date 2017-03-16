@@ -65,7 +65,6 @@ function startCrawler(req, res, next) {
         let clearData = req.body.clearData;
         let crawlerConfig = req.body;
         delete crawlerConfig.clearData;
-        console.log('crawlerConfig', crawlerConfig);
         if (clearData) {
           let clearURLsPromise = MainDBService.clearURLsDatabase();
           let clearApartments = ApartmentDBService.clearApartments();
@@ -102,6 +101,7 @@ function stopCrawler(req, res, next) {
 
 function saveConfig(req, res, next) {
   normalizeRequestBody(req.body);
+  delete req.body.clearData;
   MainDBService.updateCrawlerConfig(req.body).then(() => {
     MainDBService.getCrawlerConfig().then((doc) => {
       res.json({
