@@ -1,7 +1,9 @@
+import HTTPError from 'http-errors';
 import CrawlerService from '../services/CrawlerService';
 import MainDBService from '../../common/MainDBService';
 import ApartmentDBService from '../../common/ApartmentDBService';
-import HTTPError from 'http-errors';
+import {DomainName} from '../../common/models/Domain';
+import {ApartmentProperty} from '../../common/models/ApartmentInfo';
 
 
 // ------------------------------------
@@ -33,12 +35,29 @@ function startCrawlerWithConfig(crawlerConfig) {
     });
 }
 
+function normalizeRequestBody(reqBody) {
+  reqBody.domains = reqBody.domains || [];
+  let normalizedDomains = {};
+  Object.keys(DomainName).forEach((key) => {
+    normalizedDomains[key] = !!reqBody.domains.find((e) => e == key);
+  });
+  reqBody.domains = normalizedDomains;
+
+  reqBody.apartmentInfo = reqBody.apartmentInfo || [];
+  let normalizedApartmentInfo = {};
+  Object.keys(ApartmentProperty).forEach((key) => {
+    normalizedApartmentInfo[key] = !!reqBody.apartmentInfo.find((e) => e == key);
+  });
+  reqBody.apartmentInfo = normalizedApartmentInfo;
+}
+
 
 // ------------------------------------
 // Public
 // ------------------------------------
 
 function startCrawler(req, res, next) {
+  normalizeRequestBody(req.body);
   let {dbHost, dbPort, dbName} = req.body;
   ApartmentDBService.checkConnection(dbHost, dbPort, dbName)
     .then((result) => {
@@ -82,6 +101,7 @@ function stopCrawler(req, res, next) {
 }
 
 function saveConfig(req, res, next) {
+  normalizeRequestBody(req.body);
   MainDBService.updateCrawlerConfig(req.body).then(() => {
     MainDBService.getCrawlerConfig().then((doc) => {
       res.json({
