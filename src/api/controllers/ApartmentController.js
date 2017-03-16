@@ -37,7 +37,8 @@ Query params:
 */
 function getApartments(req, res, next) {
   let page = req.query.page || 1;
-  let search = req.query.search || {};
+  let search = req.query;
+  delete search.page;
   let offset = PAGE_SIZE * (page - 1);
   let limit = PAGE_SIZE;
   MainDBService.getCrawlerConfig().then((doc) => {
@@ -47,10 +48,12 @@ function getApartments(req, res, next) {
     apartmentProperties.forEach((key) => {
       let prop = ApartmentProperty[key];
       searchQuery[prop] = {
-        $regex: search[prop] || ''
+        $regex: new RegExp(search[prop] || '', 'i')
       };
     });
-    return ApartmentDBService.getApartments(search, offset, limit);
+    return ApartmentDBService.connect().then(() => {
+      return ApartmentDBService.getApartments(searchQuery, offset, limit);
+    });
   }).then((docs) => {
     res.json(docs);
   });

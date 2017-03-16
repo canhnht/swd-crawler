@@ -60,7 +60,7 @@ function clearApartments() {
 function addApartment(apartment) {
   let apartments = apartmentDB.db.collection('apartments');
   return apartments.updateOne({
-    Title: apartment.Title
+    HashValue: apartment.HashValue
   }, {
     '$set': apartment
   }, {
@@ -70,7 +70,13 @@ function addApartment(apartment) {
 
 function getApartments(query, offset, limit) {
   let apartments = apartmentDB.db.collection('apartments');
-  return apartments.find(query).skip(offset).limit(limit).toArray();
+  return apartments.find(query).skip(offset).limit(limit).toArray()
+    .then((docs) => {
+      docs.forEach((doc) => {
+        delete doc.HashValue;
+      });
+      return docs;
+    });
 }
 
 function getNumberApartments() {

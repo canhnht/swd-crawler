@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import Event from '../../common/Event';
 import {ApartmentProperty} from '../../common/models/ApartmentInfo';
 import ApartmentDBService from '../../common/ApartmentDBService';
@@ -55,6 +56,7 @@ class Extracter {
       let property = ApartmentProperty[key];
       newApartment[property] = apartment[property];
     });
+    newApartment.HashValue = crypto.createHash('md5').update(JSON.stringify(apartment)).digest('hex');
     ApartmentDBService.addApartment(newApartment);
   }
 }
