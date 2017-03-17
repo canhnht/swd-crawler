@@ -111,14 +111,21 @@ function stopCrawler(req, res, next) {
 function saveConfig(req, res, next) {
   normalizeRequestBody(req.body);
   delete req.body.clearData;
-  MainDBService.updateCrawlerConfig(req.body).then(() => {
-    MainDBService.getCrawlerConfig().then((doc) => {
-      res.json({
-        crawlerConfig: doc,
-        crawlerStatus: CrawlerService.getCrawlerStatus()
-      });
+  let {dbHost, dbPort, dbName} = req.body;
+  ApartmentDBService.checkConnection(dbHost, dbPort, dbName)
+    .then((result) => {
+      ApartmentDBService.disconnect();
+      if (result.success) {
+        MainDBService.updateCrawlerConfig(req.body).then(() => {
+          MainDBService.getCrawlerConfig().then((doc) => {
+            res.json({
+              crawlerConfig: doc,
+              crawlerStatus: CrawlerService.getCrawlerStatus()
+            });
+          });
+        }).catch((err) => next(err));
+      } else next(HTTPError(400, result.message));
     });
-  }).catch((err) => next(err));
 }
 
 function getConfig(req, res, next) {

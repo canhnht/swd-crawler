@@ -12,7 +12,8 @@ export default {
   addApartment,
   getApartments,
   clearApartments,
-  checkConnection
+  checkConnection,
+  disconnect
 };
 
 
@@ -23,6 +24,7 @@ export default {
 let apartmentDB = null;
 
 function connectDatabase(host, port, dbName) {
+  console.log(`Before connect ApartmentDB ${apartmentDB}`);
   apartmentDB = new MongoDB(host, port, dbName);
   return apartmentDB.connect();
 }
@@ -37,6 +39,12 @@ function connect() {
   if (apartmentDB) return Promise.resolve();
   return MainDBService.getCrawlerConfig().then((doc) => {
     return connectDatabase(doc.dbHost, doc.dbPort, doc.dbName);
+  });
+}
+
+function disconnect() {
+  return apartmentDB.db.close().then(() => {
+    apartmentDB = null;
   });
 }
 
