@@ -49,6 +49,7 @@ class MongoDB {
 
   clearDatabase() {
     return this._db.collections().then((collections) => {
+      collections = collections.filter((c) => c.collectionName.startsWith('system.'));
       return this.dropCollections(collections);
     });
   }

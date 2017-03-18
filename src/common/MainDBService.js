@@ -59,7 +59,7 @@ function connect(clearDB = false) {
   mainDB = new MongoDB();
   return mainDB.connect().then(() => {
     if (clearDB) {
-      return mainDB.clearDatabase();
+      return mainDB.clearDatabase().catch((err) => console.log(err));
     }
   })
 }
