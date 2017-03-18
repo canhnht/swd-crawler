@@ -40,5 +40,11 @@ export default {
       method: ApartmentController.getApartments,
       public: true
     }
+  },
+  '/apartments/all': {
+    get: {
+      method: ApartmentController.getAllApartments,
+      public: true
+    }
   }
 };

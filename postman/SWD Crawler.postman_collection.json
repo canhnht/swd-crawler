@@ -56,12 +56,6 @@
 				"method": "POST",
 				"header": [
 					{
-						"key": "//Content",
-						"value": "application/json",
-						"description": "",
-						"disabled": true
-					},
-					{
 						"key": "Content-Type",
 						"value": "application/json",
 						"description": ""
@@ -89,7 +83,18 @@
 		{
 			"name": "/apartments",
 			"request": {
-				"url": "{{URL}}/apartments?page=1&Title=Cho Thuê",
+				"url": "{{URL}}/apartments?Title=Cho Thuê",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/apartments/all",
+			"request": {
+				"url": "{{URL}}/apartments/all",
 				"method": "GET",
 				"header": [],
 				"body": {},

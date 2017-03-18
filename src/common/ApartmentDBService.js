@@ -13,7 +13,9 @@ export default {
   getApartments,
   clearApartments,
   checkConnection,
-  disconnect
+  disconnect,
+  getAllApartments,
+  getNumberApartments
 };
 
 
@@ -79,6 +81,17 @@ function addApartment(apartment) {
 function getApartments(query, offset, limit) {
   let apartments = apartmentDB.db.collection('apartments');
   return apartments.find(query).skip(offset).limit(limit).toArray()
+    .then((docs) => {
+      docs.forEach((doc) => {
+        delete doc.HashValue;
+      });
+      return docs;
+    });
+}
+
+function getAllApartments(query) {
+  let apartments = apartmentDB.db.collection('apartments');
+  return apartments.find(query).toArray()
     .then((docs) => {
       docs.forEach((doc) => {
         delete doc.HashValue;
