@@ -32,7 +32,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"dbHost\": \"127.0.0.1\",\n\t\"dbPort\": 27017,\n\t\"dbName\": \"swd-crawler\",\n\t\"domains\": \"2\",\n\t\"apartmentInfo\": [\"1\", \"17\"],\n\t\"secondsBetweenRequest\": 1\n}\n"
+					"raw": "{\n\t\"dbHost\": \"127.0.0.1\",\n\t\"dbPort\": 27017,\n\t\"dbName\": \"swd-crawler\",\n\t\"domains\": \"4\",\n\t\"apartmentInfo\": [\"1\", \"2\", \"3\", \"4\", \"5\", \"6\", \"7\", \"8\", \"9\", \"10\", \"11\", \"12\", \"13\", \"14\", \"15\", \"16\", \"17\"],\n\t\"secondsBetweenRequest\": 1\n}\n"
 				},
 				"description": ""
 			},
@@ -83,7 +83,7 @@
 		{
 			"name": "/apartments",
 			"request": {
-				"url": "{{URL}}/apartments?Title=Cho Thuê",
+				"url": "{{URL}}/apartments?page=100",
 				"method": "GET",
 				"header": [],
 				"body": {},
