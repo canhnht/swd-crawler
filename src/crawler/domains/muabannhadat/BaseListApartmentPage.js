@@ -11,18 +11,24 @@ class BaseListApartmentPage extends EventEmitter {
     this._baseUrl = baseUrl;
     this._htmlCode = htmlCode;
     this._currentPageNumber = 0;
-    this._numberOfPages = 1;
+    this._numberOfPages = 500;
   }
 
   process() {
-    _.times(this._numberOfPages, () => {
-      process.nextTick(() => {
-        let link = this._generatePageLink(this._currentPageNumber);
-        this._currentPageNumber += 1;
-        let listApartmentURL = new URL(this._baseUrl.domain, link, URLType.PAGINATED_LIST_APARTMENT);
-        this.emit(Event.BaseListApartmentPage.ListApartmentURL, listApartmentURL);
-      });
+    let pageLinksPromise = _.times(this._numberOfPages, () => {
+      return () => {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            let link = this._generatePageLink(this._currentPageNumber);
+            this._currentPageNumber += 1;
+            let listApartmentURL = new URL(this._baseUrl.domain, link, URLType.PAGINATED_LIST_APARTMENT);
+            this.emit(Event.BaseListApartmentPage.ListApartmentURL, listApartmentURL);
+            resolve();
+          }, 1000);
+        });
+      };
     });
+    pageLinksPromise.reduce((p, e) => p.then(e), Promise.resolve());
   }
 
   _generatePageLink(pageNumber) {

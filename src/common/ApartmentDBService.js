@@ -45,6 +45,7 @@ function connect() {
 }
 
 function disconnect() {
+  if (!apartmentDB) return Promise.resolve();
   return apartmentDB.db.close().then(() => {
     apartmentDB = null;
   });

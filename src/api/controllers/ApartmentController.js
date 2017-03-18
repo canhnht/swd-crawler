@@ -60,7 +60,7 @@ function getApartments(req, res, next) {
   }).then((result) => {
     let response = {
       apartments: result[0],
-      currentPage: page,
+      currentPage: parseInt(page),
       numberOfPages: Math.ceil(result[1] / PAGE_SIZE)
     };
     res.json(response);

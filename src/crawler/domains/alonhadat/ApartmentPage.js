@@ -99,7 +99,7 @@ class ApartmentPage extends EventEmitter {
   }
 
   _extractNumberOfBathrooms($) {
-    return 0;
+    return '';
   }
 
   _extractProject($) {

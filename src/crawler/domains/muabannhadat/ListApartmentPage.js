@@ -16,12 +16,10 @@ class ListApartmentPage extends EventEmitter {
   process() {
     let $ = cheerio.load(this._htmlCode);
     $('.title-filter-link').each((idx, aNode) => {
-      process.nextTick(() => {
-        let apartmentLink = $(aNode).attr('href');
-        apartmentLink = this._getFullLink(apartmentLink);
-        let apartmentURL = new URL(this._baseUrl.domain, apartmentLink, URLType.ITEM_APARTMENT);
-        this.emit(Event.ListApartmentPage.ApartmentURL, apartmentURL);
-      });
+      let apartmentLink = $(aNode).attr('href');
+      apartmentLink = this._getFullLink(apartmentLink);
+      let apartmentURL = new URL(this._baseUrl.domain, apartmentLink, URLType.ITEM_APARTMENT);
+      this.emit(Event.ListApartmentPage.ApartmentURL, apartmentURL);
     });
   }
 

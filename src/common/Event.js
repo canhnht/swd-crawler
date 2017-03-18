@@ -2,8 +2,16 @@
 
 
 const HTTPFetcher = {
-  FetchedPage: 'HTTPFetcher:FetchedPage',
-  Done: 'HTTPFetcher:Done'
+  FetchedPage: 'HTTPFetcher:FetchedPage'
+};
+
+const Extracter = {
+  ExtractedURL: 'Extracter:ExtractedURL'
+};
+
+const URLFrontier = {
+  NextURL: 'URLFrontier:NextURL',
+  OutOfURL: 'URLFrontier:OutOfURL'
 };
 
 const ListApartmentPage = {
@@ -20,6 +28,8 @@ const ApartmentPage = {
 
 export default {
   HTTPFetcher,
+  Extracter,
+  URLFrontier,
   ListApartmentPage,
   ApartmentPage,
   BaseListApartmentPage

@@ -1,22 +1,26 @@
 import crypto from 'crypto';
+import {EventEmitter} from 'events';
 import Event from '../../common/Event';
 import {ApartmentProperty} from '../../common/models/ApartmentInfo';
 import ApartmentDBService from '../../common/ApartmentDBService';
 import URLType from '../../common/models/URLType';
 import {DomainFolder} from '../../common/models/Domain';
 
-class Extracter {
+class Extracter extends EventEmitter {
   constructor(httpFetcher, urlFrontier) {
-    this._httpFetcher = httpFetcher;
-    this._urlFrontier = urlFrontier;
+    super();
     this._handleApartment = this._handleApartment.bind(this);
     this._handleExtractedURL = this._handleExtractedURL.bind(this);
     this._processPage = this._processPage.bind(this);
   }
 
+  bindEvents(httpFetcher) {
+    this._httpFetcher = httpFetcher;
+    this._httpFetcher.on(Event.HTTPFetcher.FetchedPage, this._processPage);
+  }
+
   run(apartmentProperties) {
     this._apartmentProperties = apartmentProperties;
-    this._httpFetcher.on(Event.HTTPFetcher.FetchedPage, this._processPage);
   }
 
   _processPage(url, htmlCode) {
@@ -47,7 +51,7 @@ class Extracter {
   }
 
   _handleExtractedURL(extractedURL) {
-    this._urlFrontier.addUrl(extractedURL);
+    this.emit(Event.Extracter.ExtractedURL, extractedURL);
   }
 
   _handleApartment(apartment) {

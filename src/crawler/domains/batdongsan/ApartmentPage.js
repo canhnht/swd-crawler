@@ -49,7 +49,7 @@ class ApartmentPage extends EventEmitter {
   }
 
   _extractPrice($) {
-    return $('.gia-title.mar-right-15 strong').text().trim();
+    return $('.gia-title strong').eq(0).text().trim();
   }
 
   _extractCity($) {
@@ -65,11 +65,22 @@ class ApartmentPage extends EventEmitter {
   }
 
   _extractAddress($) {
-    return $('.diadiem-title').text().trim();
+    let leftColumn = $('.left');
+    let rightColumn = $('.right');
+    let address = '';
+    leftColumn.each((idx, node) => {
+      if (idx >= 1) {
+        let name = $(node).text().trim();
+        if (name == 'Địa chỉ') {
+          address = rightColumn.eq(idx - 1).text().trim();
+        }
+      }
+    })
+    return address;
   }
 
   _extractArea($) {
-    return $('.gia-title').text().trim();
+    return $('.gia-title strong').eq(1).text().trim();
   }
 
   _extractDirection($) {
@@ -77,21 +88,19 @@ class ApartmentPage extends EventEmitter {
   }
 
   _extractNumberOfBedrooms($) {
-    return 0;
+    return '';
   }
 
   _extractNumberOfBathrooms($) {
-    return 0;
+    return '';
   }
 
   _extractProject($) {
-    let address = $('.diadiem-title').text().trim();
-    let parts = address.split('-');
-    return parts[parts.length - 1].trim();
+    return $('.diadiem-title a').text().trim();
   }
 
   _extractFloor($) {
-    return 0;
+    return '';
   }
 
   _extractUtilities($) {
@@ -104,7 +113,7 @@ class ApartmentPage extends EventEmitter {
 
   _extractImages($) {
     let images = [];
-    $('.image-list .limage').each((idx, elem) => {
+    $('#thumbs img').each((idx, elem) => {
       let imageLink = this._getFullLink($(elem).attr('src'));
       images.push(imageLink);
     });
@@ -112,9 +121,11 @@ class ApartmentPage extends EventEmitter {
   }
 
   _getFullLink(link) {
+    let imageLink = '';
     if (link.startsWith('http'))
-      return link;
-    return `${DomainName[this._baseUrl.domain]}${link}`;
+      imageLink = link;
+    else imageLink = `${DomainName[this._baseUrl.domain]}${link}`;
+    return imageLink.replace('200x200', '745x510');
   }
 }
 
