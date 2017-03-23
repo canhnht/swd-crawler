@@ -41,61 +41,107 @@ class ApartmentPage extends EventEmitter {
   }
 
   _extractTitle($) {
-    return $('.navi-title').text().trim();
+    const title = $('.navi-title');
+    if (title && title.text())
+      return title.text().trim();
+    else return '';
   }
 
   _extractDescription($) {
-    return $('#Description').html().trim();
+    const desc = $('#Description');
+    if (desc && desc.html())
+      return desc.html().trim();
+    else return '';
   }
 
   _extractPrice($) {
-    return $('#MainContent_ctlDetailBox_lblPrice.price').text().trim();
+    const price = $('#MainContent_ctlDetailBox_lblPrice.price');
+    if (price && price.text())
+      return price.text().trim();
+    else return '';
   }
 
   _extractCity($) {
-    return $('#MainContent_ctlDetailBox_lblCity').text().trim();
+    const city = $('#MainContent_ctlDetailBox_lblCity');
+    if (city && city.text())
+      return city.text().trim();
+    else return '';
   }
 
   _extractDistrict($) {
-    return $('#MainContent_ctlDetailBox_lblDistrict').text().trim();
+    const district = $('#MainContent_ctlDetailBox_lblDistrict');
+    if (district && district.text())
+      return district.text().trim();
   }
 
   _extractAddress($) {
-    let street = $('#MainContent_ctlDetailBox_lblStreet').text().trim();
-    let ward = $('#MainContent_ctlDetailBox_lblWard').text().trim();
+    let street = $('#MainContent_ctlDetailBox_lblStreet');
+    if (street && street.text())
+      street = street.text().trim();
+    else street = '';
+
+    let ward = $('#MainContent_ctlDetailBox_lblWard');
+    if (ward && ward.text())
+      ward = ward.text().trim();
+    else ward = '';
+
     return `${street}, ${ward}`;
   }
 
   _extractArea($) {
-    return $('#MainContent_ctlDetailBox_lblSurface').text().trim();
+    const area = $('#MainContent_ctlDetailBox_lblSurface');
+    if (area && area.text())
+      return area.text().trim();
+    else return '';
   }
 
   _extractDirection($) {
-    return $('#MainContent_ctlDetailBox_lblFengShuiDirection').text().trim();
+    const direction = $('#MainContent_ctlDetailBox_lblFengShuiDirection');
+    if (direction && direction.text())
+      return direction.text().trim();
+    else return '';
   }
 
   _extractNumberOfBedrooms($) {
-    return $('#MainContent_ctlDetailBox_lblBedRoom').text().trim();
+    const numberOfBedrroms = $('#MainContent_ctlDetailBox_lblBedRoom');
+    if (numberOfBedrroms && numberOfBedrroms.text())
+      return numberOfBedrroms.text().trim();
+    else return '';
   }
 
   _extractNumberOfBathrooms($) {
-    return $('#MainContent_ctlDetailBox_lblBathRoom').text().trim();
+    const numberOfBathrooms = $('#MainContent_ctlDetailBox_lblBathRoom');
+    if (numberOfBathrooms && numberOfBathrooms.text())
+      return numberOfBathrooms.text().trim();
+    else return '';
   }
 
   _extractProject($) {
-    return $('#MainContent_ctlDetailBox_lblProject').text().trim();
+    const project = $('#MainContent_ctlDetailBox_lblProject');
+    if (project && project.text())
+      return project.text().trim();
+    else return '';
   }
 
   _extractFloor($) {
-    return $('#MainContent_ctlDetailBox_lblFloor').text().trim();
+    const floor = $('#MainContent_ctlDetailBox_lblFloor');
+    if (floor && floor.text())
+      return floor.text().trim();
+    else return '';
   }
 
   _extractUtilities($) {
-    return $('#MainContent_ctlDetailBox_lblUtility').html().trim();
+    const utilities = $('#MainContent_ctlDetailBox_lblUtility');
+    if (utilities && utilities.html())
+      return utilities.html().trim();
+    else return '';
   }
 
   _extractEnvironment($) {
-    return $('#MainContent_ctlDetailBox_lblEnvironment').html().trim();
+    const environment = $('#MainContent_ctlDetailBox_lblEnvironment');
+    if (environment && environment.html())
+      return environment.html().trim();
+    else return '';
   }
 
   _extractImages($) {

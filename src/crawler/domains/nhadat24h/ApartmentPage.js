@@ -41,35 +41,59 @@ class ApartmentPage extends EventEmitter {
   }
 
   _extractTitle($) {
-    return $('.dv-ct-detail h1').text().trim();
+    const title = $('.dv-ct-detail h1');
+    if (title && title.text())
+      return title.text().trim();
+    else return '';
   }
 
   _extractDescription($) {
-    return $('#ContentPlaceHolder2_divContent').html().trim();
+    const desc = $('#ContentPlaceHolder2_divContent');
+    if (desc && desc.html())
+      return desc.html().trim();
+    else return '';
   }
 
   _extractPrice($) {
-    return $('#ContentPlaceHolder2_lbGiaTien').text().trim();
+    const price = $('#ContentPlaceHolder2_lbGiaTien');
+    if (price && price.text())
+      return price.text().trim();
+    else return '';
   }
 
   _extractCity($) {
-    return $('#ContentPlaceHolder2_lbTinhThanh').text().trim();
+    const city = $('#ContentPlaceHolder2_lbTinhThanh');
+    if (city && city.text())
+      return city.text().trim();
+    else return '';
   }
 
   _extractDistrict($) {
-    return $('#ContentPlaceHolder2_lbDiaChi a').text().trim();
+    const district = $('#ContentPlaceHolder2_lbDiaChi a');
+    if (district && district.text())
+      return district.text().trim();
+    else return '';
   }
 
   _extractAddress($) {
-    return $('#ContentPlaceHolder2_lbVitri h2 a').text().trim();
+    const address = $('#ContentPlaceHolder2_lbVitri h2 a');
+    if (address && address.text())
+      return address.text().trim();
+    else return '';
   }
 
   _extractArea($) {
-    return $('#ContentPlaceHolder2_lbDienTich').text().trim();
+    const area = $('#ContentPlaceHolder2_lbDienTich');
+    if (area && area.text())
+      return area.text().trim();
+    else return '';
   }
 
   _extractDirection($) {
-    return $('#ContentPlaceHolder2_lbHuong').text().trim();
+    const direction = $('#ContentPlaceHolder2_lbHuong');
+    if (direction && direction.text())
+      return direction.text().trim();
+    else return '';
   }
 
   _extractNumberOfBedrooms($) {
@@ -81,7 +105,10 @@ class ApartmentPage extends EventEmitter {
   }
 
   _extractProject($) {
-    return $('#ContentPlaceHolder2_lbLoaiBDS a').text().trim();
+    const project = $('#ContentPlaceHolder2_lbLoaiBDS a');
+    if (project && project.text())
+      return project.text().trim();
+    else return '';
   }
 
   _extractFloor($) {
@@ -93,10 +120,10 @@ class ApartmentPage extends EventEmitter {
   }
 
   _extractEnvironment($) {
-    let node = $('#near-by-place-detail');
-    if (node && node.html()) {
-      return node.trim();
-    } else return '';
+    let environment = $('#near-by-place-detail');
+    if (environment && environment.html())
+      return environment.html().trim();
+    else return '';
   }
 
   _extractImages($) {

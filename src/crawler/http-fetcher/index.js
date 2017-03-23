@@ -22,7 +22,8 @@ class HTTPFetcher extends EventEmitter {
       url: url.link,
       method: 'get',
       responseType: 'text',
-      proxy: config.get('AXIOS_PROXY')
+      proxy: config.get('AXIOS_PROXY'),
+      timeout: 30000
     };
     return axios(requestOptions).then((res) => {
       if (res.status === 200)

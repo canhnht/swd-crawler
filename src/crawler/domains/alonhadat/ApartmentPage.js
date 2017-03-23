@@ -41,35 +41,54 @@ class ApartmentPage extends EventEmitter {
   }
 
   _extractTitle($) {
-    return $('.title h1').text().trim();
+    const title = $('.title h1');
+    if (title && title.text())
+      return title.text().trim();
+    else return '';
   }
 
   _extractDescription($) {
-    return $('.detail').html().trim();
+    const desc = $('.detail');
+    if (desc && desc.html())
+      return desc.html().trim();
+    else return '';
   }
 
   _extractPrice($) {
-    return $('.price .value').text().trim();
+    const price = $('.price .value');
+    if (price && price.text())
+      return price.text().trim();
+    else return '';
   }
 
   _extractCity($) {
     let address = $('.add .value').text().trim();
     let parts = address.split(',');
-    return parts[parts.length - 1].trim();
+    if (parts.length > 0)
+      return parts[parts.length - 1].trim();
+    else return '';
   }
 
   _extractDistrict($) {
     let address = $('.add .value').text().trim();
     let parts = address.split(',');
-    return parts[parts.length - 2].trim();
+    if (parts.length > 1)
+      return parts[parts.length - 2].trim();
+    else return '';
   }
 
   _extractAddress($) {
-    return $('.add .value').text().trim();
+    const address = $('.add .value');
+    if (address && address.text())
+      return address.text().trim();
+    else return '';
   }
 
   _extractArea($) {
-    return $('.square .value').text().trim();
+    const area = $('.square .value');
+    if (area && area.text())
+      return area.text().trim();
+    else return '';
   }
 
   _extractDirection($) {
@@ -103,7 +122,10 @@ class ApartmentPage extends EventEmitter {
   }
 
   _extractProject($) {
-    return $('.project a').text().trim();
+    let project = $('.project a');
+    if (project && project.text())
+      return project.text().trim();
+    else return '';
   }
 
   _extractFloor($) {

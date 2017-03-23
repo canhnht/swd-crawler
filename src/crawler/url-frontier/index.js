@@ -4,7 +4,7 @@ import {DomainName, DomainFolder} from '../../common/models/Domain';
 import URL from '../../common/models/URL';
 import Event from '../../common/Event';
 
-const THRESHOLD_EMPTY_URL = 10;
+const THRESHOLD_EMPTY_URL = 100;
 
 class URLFrontier extends EventEmitter {
   constructor() {
@@ -64,6 +64,7 @@ class URLFrontier extends EventEmitter {
           this.emit(Event.URLFrontier.OutOfURL);
         }
       } else {
+        this._timesEmptyURLs = 0;
         nextUrls.forEach((url) => {
           console.log('nextURL', url);
           process.nextTick(() => {

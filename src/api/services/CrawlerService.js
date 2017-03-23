@@ -48,13 +48,21 @@ function startCrawler() {
   }
   let child = exec('babel-node ./src/crawler');
   child.stdout.on('data', function(data) {
-    console.log('stdout: ' + data);
+    console.log('stdout:', data);
   });
   child.stderr.on('data', function(data) {
-    console.log('stderr: ' + data);
+    console.log('stderr:', data);
   });
-  child.on('close', function(code) {
-    console.log('closing code: ' + code);
+  child.on('close', function(code, signal) {
+    console.log('closing code: ' + code + ' ' + signal);
+    crawlerPID = null;
+  });
+  child.on('exit', function(code, signal) {
+    console.log('exiting code: ' + code + ' ' + signal);
+    crawlerPID = null;
+  });
+  child.on('error', function(err) {
+    console.log('closing error:', err);
     crawlerPID = null;
   });
   crawlerPID = child.pid;

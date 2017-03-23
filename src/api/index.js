@@ -8,6 +8,7 @@ import bodyParser from 'body-parser';
 import domainMiddleware from 'express-domain-middleware';
 import {errorHandler, notFoundHandler} from 'express-api-error-handler';
 import config from 'config';
+import timeout from 'connect-timeout';
 import routes from './routes';
 import loadRoutes from '../common/loadRoutes';
 import logger from '../common/logger';
@@ -20,8 +21,13 @@ class Api {
     app.set('port', config.get('PORT'));
 
     app.use(cors());
+    app.use(timeout('10h'));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: true}));
+    app.use(haltOnTimedout);
+    function haltOnTimedout (req, res, next) {
+      if (!req.timedout) next()
+    }
     app.use(domainMiddleware);
 
     const apiRouter = new express.Router();

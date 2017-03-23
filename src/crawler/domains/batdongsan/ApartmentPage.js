@@ -41,27 +41,40 @@ class ApartmentPage extends EventEmitter {
   }
 
   _extractTitle($) {
-    return $('.pm-title h1').text().trim();
+    const title = $('.pm-title h1');
+    if (title && title.text())
+      return title.text().trim();
+    else return '';
   }
 
   _extractDescription($) {
-    return $('.pm-desc').html().trim();
+    const desc = $('.pm-desc');
+    if (desc && desc.html())
+      return desc.html().trim();
+    else return '';
   }
 
   _extractPrice($) {
-    return $('.gia-title strong').eq(0).text().trim();
+    const price = $('.gia-title strong');
+    if (price && price.eq(0) && price.eq(0).text())
+      return price.eq(0).text().trim();
+    else return '';
   }
 
   _extractCity($) {
     let address = $('.diadiem-title').text().trim();
     let parts = address.split('-');
-    return parts[parts.length - 1].trim();
+    if (parts.length > 0)
+      return parts[parts.length - 1].trim();
+    else return '';
   }
 
   _extractDistrict($) {
     let address = $('.diadiem-title').text().trim();
     let parts = address.split('-');
-    return parts[parts.length - 2].trim();
+    if (parts.length > 1)
+      return parts[parts.length - 2].trim();
+    else return '';
   }
 
   _extractAddress($) {
@@ -80,7 +93,10 @@ class ApartmentPage extends EventEmitter {
   }
 
   _extractArea($) {
-    return $('.gia-title strong').eq(1).text().trim();
+    const area = $('.gia-title strong');
+    if (area && area.eq(1) && area.eq(1).text())
+      return area.eq(1).text().trim();
+    else return '';
   }
 
   _extractDirection($) {
@@ -96,7 +112,10 @@ class ApartmentPage extends EventEmitter {
   }
 
   _extractProject($) {
-    return $('.diadiem-title a').text().trim();
+    const project = $('.diadiem-title a');
+    if (project && project.text())
+      return project.text().trim();
+    else return '';
   }
 
   _extractFloor($) {
